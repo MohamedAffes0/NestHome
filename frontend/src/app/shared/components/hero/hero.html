@@ -1,0 +1,73 @@
+<section class="hero">
+
+  <div class="hero__blob hero__blob--1"></div>
+  <div class="hero__blob hero__blob--2"></div>
+
+  <div class="hero__container">
+
+    <!-- Content -->
+    <div class="hero__content">
+
+      <span class="hero__eyebrow">🏡 Bienvenue sur NestHome</span>
+
+      <h1 class="hero__title">
+        Trouvez le bien
+        <em class="hero__title-accent">immobilier</em>
+        de vos rêves
+      </h1>
+
+      <p class="hero__subtitle">
+        Des milliers d'annonces en Tunisie. Achetez, louez et gérez vos biens en toute simplicité.
+      </p>
+
+      <!-- Recherche -->
+      <div class="hero__search">
+        <div class="hero__tabs">
+          <button class="hero__tab" [class.hero__tab--active]="searchType === 'acheter'" (click)="setSearchType('acheter')">Acheter</button>
+          <button class="hero__tab" [class.hero__tab--active]="searchType === 'louer'"   (click)="setSearchType('louer')">Louer</button>
+        </div>
+        <div class="hero__search-bar">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <input
+            class="hero__input"
+            type="text"
+            placeholder="Tunis, Sfax, Sousse..."
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="onSearch()"
+          />
+          <button class="hero__search-btn" (click)="onSearch()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Rechercher
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="hero__stats">
+        <ng-container *ngFor="let stat of stats; let last = last">
+          <div class="hero__stat">
+            <span class="hero__stat-value">{{ stat.value }}</span>
+            <span class="hero__stat-label">{{ stat.label }}</span>
+          </div>
+          <div *ngIf="!last" class="hero__stat-sep"></div>
+        </ng-container>
+      </div>
+
+    </div>
+
+    <!-- Image -->
+    <div class="hero__visual">
+      <div class="hero__image-frame">
+        <img class="hero__img" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80" alt="Villa moderne" />
+        <div *ngFor="let card of floatingCards" class="hero__float-card" [ngClass]="'hero__float-card--' + card.position">
+          <span class="hero__float-icon">{{ card.icon }}</span>
+          <div>
+            <p class="hero__float-title">{{ card.title }}</p>
+            <p class="hero__float-sub">{{ card.sub }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

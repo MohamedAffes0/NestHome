@@ -1,0 +1,90 @@
+:host { display: contents; }
+
+.cdm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 15, 30, 0.55);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: cdmFade .15s ease;
+}
+
+.cdm {
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--shadow-xl);
+  animation: cdmSlide .2s ease;
+}
+
+.cdm__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.cdm__title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--navy-700);
+}
+
+.cdm__close {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+.cdm__close:hover    { background: var(--gray-100); }
+.cdm__close:disabled { opacity: .4; cursor: not-allowed; }
+
+.cdm__body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+
+.cdm__icon {
+  width: 52px; height: 52px;
+  border-radius: var(--radius-full);
+  background: #fef9ec;
+  border: 2px solid #fde68a;
+  display: flex; align-items: center; justify-content: center;
+  color: #f59e0b;
+}
+
+.cdm__msg {
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  line-height: 1.65;
+}
+
+.cdm__sub {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.cdm__footer {
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+@keyframes cdmFade  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cdmSlide { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

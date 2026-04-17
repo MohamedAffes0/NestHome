@@ -1,0 +1,164 @@
+.cm { padding: var(--space-8) 0 var(--space-16); }
+
+/* ── Header ── */
+.cm__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.cm__btn-new {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+/* ── Stats ── */
+.cm__stats {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.cm__stat {
+  flex: 1;
+  min-width: 100px;
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cm__stat-value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--navy-700);
+  line-height: 1;
+}
+.cm__stat-value--sale   { color: #16a34a; }
+.cm__stat-value--rental { color: #2563eb; }
+
+.cm__stat-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* ── Flash ── */
+.cm__flash {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  margin-bottom: var(--space-4);
+  animation: fadeIn .2s ease;
+}
+.cm__flash--success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.cm__flash--error   { background: #fef2f2; color: var(--color-danger); border: 1px solid #fecaca; }
+
+/* ── Toolbar ── */
+.cm__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.cm__search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+.cm__search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+.cm__search {
+  width: 100%;
+  padding: 0.55rem var(--space-3) 0.55rem 34px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  background: var(--white);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+.cm__search:focus { border-color: var(--navy-400); }
+
+.cm__filters {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.cm__filter-btn {
+  padding: 0.4rem var(--space-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: var(--white);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  font-family: var(--font-body);
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: all var(--transition-fast);
+}
+.cm__filter-btn:hover  { border-color: var(--navy-300); color: var(--navy-600); }
+.cm__filter-btn.active { background: var(--navy-700); border-color: var(--navy-700); color: var(--white); }
+
+.cm__filter-btn--sale.active   { background: #16a34a; border-color: #16a34a; }
+.cm__filter-btn--rental.active { background: #2563eb; border-color: #2563eb; }
+
+/* ── Loading ── */
+.cm__loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-12) 0;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ── Empty ── */
+.cm__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-16) 0;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+/* ── List ── */
+.cm__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── Animations ── */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .cm__header { flex-direction: column; align-items: flex-start; }
+}

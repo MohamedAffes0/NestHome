@@ -1,0 +1,58 @@
+<div class="pc">
+
+  <!-- Accent bar -->
+  <div class="pc__accent"></div>
+
+  <!-- Property image -->
+  <img class="pc__img" [src]="mainImage" [alt]="payment.realEstate?.title ?? 'Bien'" />
+
+  <!-- Body -->
+  <div class="pc__body">
+
+    <!-- Property -->
+    <div class="pc__property">
+      <p class="pc__property-title">{{ payment.realEstate?.title ?? '—' }}</p>
+      <p class="pc__property-addr" *ngIf="payment.realEstate?.address">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        {{ payment.realEstate?.address }}
+      </p>
+    </div>
+
+    <!-- Client -->
+    <div class="pc__client">
+      <img class="pc__client-avatar" [src]="clientAvatar" [alt]="payment.user?.name ?? ''" />
+      <div class="pc__client-info">
+        <p class="pc__client-name">{{ payment.user?.name ?? '—' }}</p>
+        <p class="pc__client-email">{{ payment.user?.email ?? '' }}</p>
+      </div>
+    </div>
+
+    <!-- Date -->
+    <div class="pc__date">
+      <span class="pc__date-day">{{ day }}</span>
+      <span class="pc__date-month">{{ month }}</span>
+      <span class="pc__date-year">{{ year }}</span>
+    </div>
+
+    <!-- Amount -->
+    <div class="pc__amount">
+      <span class="pc__amount-value">{{ payment.amount | number:'1.0-2' }}</span>
+      <span class="pc__amount-unit">DT</span>
+    </div>
+
+  </div>
+
+  <!-- Actions -->
+  <div class="pc__actions">
+    <button class="pc__btn pc__btn--download" type="button" (click)="onDownload()" title="Télécharger le reçu">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Reçu
+    </button>
+
+    <button class="pc__btn pc__btn--delete" type="button" (click)="delete.emit()" title="Supprimer">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+      Supprimer
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,149 @@
+:host { display: contents; }
+
+.profile-sidebar {
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--space-4));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── User card ── */
+.profile-card {
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  gap: var(--space-2);
+}
+
+.profile-avatar-wrap { position: relative; margin-bottom: var(--space-1); }
+
+.profile-avatar {
+  width: 80px; height: 80px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 3px solid var(--gold-300);
+  box-shadow: var(--shadow-sm);
+  display: block;
+}
+
+.profile-avatar__edit {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 24px; height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--navy-600);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  border: 2px solid var(--white);
+  transition: background var(--transition-fast);
+  z-index: 1;
+}
+.profile-avatar__edit:hover { background: var(--navy-500); }
+
+/* Input caché — doit rester dans le DOM mais invisible */
+.profile-avatar__input-hidden { display: none; }
+
+.profile-name {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--navy-700);
+  line-height: 1.3;
+}
+
+.profile-role-badge {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold-600);
+  background: var(--gold-50);
+  border: 1px solid var(--gold-100);
+  padding: 0.15rem var(--space-2);
+  border-radius: var(--radius-full);
+}
+
+.profile-email {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  word-break: break-all;
+}
+
+.profile-remove-avatar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-danger);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  padding: 0;
+}
+.profile-remove-avatar:hover { opacity: 0.75; }
+
+/* ── Nav ── */
+.profile-nav {
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-nav__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  text-align: left;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: all var(--transition-fast);
+}
+.profile-nav__item + .profile-nav__item { border-top: 1px solid var(--color-border); }
+.profile-nav__item svg                  { color: var(--gray-400); flex-shrink: 0; }
+.profile-nav__item:hover                { background: var(--navy-50); color: var(--navy-600); }
+.profile-nav__item:hover svg            { color: var(--navy-600); }
+.profile-nav__item--active              { background: var(--navy-50); color: var(--navy-600); font-weight: 600; border-left-color: var(--gold-500); }
+.profile-nav__item--active svg          { color: var(--navy-600); }
+
+.profile-nav__item--danger             { color: var(--color-danger); }
+.profile-nav__item--danger svg         { color: #fca5a5; }
+.profile-nav__item--danger:hover       { background: #fef2f2; color: #991b1b; }
+.profile-nav__item--danger:hover svg   { color: var(--color-danger); }
+.profile-nav__item--danger.profile-nav__item--active { background: #fef2f2; color: #991b1b; border-left-color: var(--color-danger); }
+
+@media (max-width: 768px) {
+  .profile-sidebar { position: static; }
+}
+
+/* ── Spinner bouton supprimer ── */
+.profile-remove-avatar__spinner {
+  width: 10px; height: 10px;
+  border: 1.5px solid rgba(192, 57, 43, 0.3);
+  border-top-color: var(--color-danger);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.profile-remove-avatar:disabled { opacity: 0.6; cursor: not-allowed; }

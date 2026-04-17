@@ -1,0 +1,49 @@
+<nav class="pag" *ngIf="totalPages > 1" aria-label="Pagination">
+
+  <!-- Summary -->
+  <p class="pag__info">
+    <strong>{{ from }}–{{ to }}</strong> sur <strong>{{ totalItems }}</strong> résultats
+  </p>
+
+  <!-- Boutons -->
+  <div class="pag__controls">
+
+    <!-- Previous -->
+    <button
+      class="pag__btn pag__btn--nav"
+      [disabled]="currentPage === 1"
+      (click)="go(currentPage - 1)"
+      aria-label="Page précédente"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <!-- First Page -->
+    <button *ngIf="showFirst" class="pag__btn" (click)="go(1)">1</button>
+    <span   *ngIf="showFirstEllipsis" class="pag__ellipsis">…</span>
+
+    <!-- Middle Pages -->
+    <button
+      *ngFor="let p of pages"
+      class="pag__btn"
+      [class.pag__btn--active]="p === currentPage"
+      [attr.aria-current]="p === currentPage ? 'page' : null"
+      (click)="go(p)"
+    >{{ p }}</button>
+
+    <!-- Last Page -->
+    <span  *ngIf="showLastEllipsis"  class="pag__ellipsis">…</span>
+    <button *ngIf="showLast" class="pag__btn" (click)="go(totalPages)">{{ totalPages }}</button>
+
+    <!-- Next -->
+    <button
+      class="pag__btn pag__btn--nav"
+      [disabled]="currentPage === totalPages"
+      (click)="go(currentPage + 1)"
+      aria-label="Page suivante"
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+  </div>
+</nav>

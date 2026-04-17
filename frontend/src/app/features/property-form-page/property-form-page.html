@@ -1,0 +1,172 @@
+<!-- ── Skeleton (chargement mode édition) ── -->
+<div class="pfp-loading" *ngIf="loading">
+  <div class="container">
+    <div class="pfp-skeleton pfp-skeleton--header"></div>
+    <div class="pfp-skeleton pfp-skeleton--section"></div>
+    <div class="pfp-skeleton pfp-skeleton--section"></div>
+  </div>
+</div>
+
+<!-- ── Load Error ── -->
+<div class="pfp-load-error" *ngIf="!loading && loadError">
+  <div class="container">
+    <div class="pfp-load-error__card">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor"/></svg>
+      <p>{{ loadError }}</p>
+      <button class="btn btn-primary" (click)="goBack()">Retour</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Principal Page ── -->
+<div class="pfp-page" *ngIf="!loading && !loadError">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="pfp-header">
+
+      <div class="pfp-header__left">
+        <button class="pfp-back" type="button" (click)="goBack()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          {{ mode === 'edit' ? 'Retour au bien' : 'Retour à la gestion' }}
+        </button>
+
+        <div class="pfp-header__titles">
+          <span class="pfp-header__badge" [class.pfp-header__badge--edit]="mode === 'edit'">
+            {{ mode === 'edit' ? '✏️ Modification' : '✨ Nouvelle annonce' }}
+          </span>
+          <h1 class="pfp-header__title">
+            {{ mode === 'edit' ? 'Modifier le bien' : 'Ajouter un bien' }}
+          </h1>
+          <p class="pfp-header__sub" *ngIf="mode === 'edit' && existing">
+            {{ existing.title }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="pfp-header__actions">
+        <button type="button" class="btn btn-ghost" (click)="goBack()" [disabled]="saving">
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary pfp-submit-btn"
+          [disabled]="!canSubmit"
+          (click)="onSubmit()"
+        >
+          <span class="auth-spinner" *ngIf="saving"></span>
+          <svg *ngIf="!saving" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          {{ saving ? 'Enregistrement...' : (mode === 'edit' ? 'Enregistrer les modifications' : 'Publier l\'annonce') }}
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Alerts -->
+    <app-alert *ngIf="saveError"   type="error"   [message]="saveError" />
+    <app-alert *ngIf="saveSuccess" type="success" [message]="mode === 'edit' ? 'Bien mis à jour avec succès !' : 'Annonce publiée avec succès !'" />
+
+    <!-- ── Layout 2 columns ── -->
+    <div class="pfp-layout">
+
+      <!-- Principal Colonne -->
+      <div class="pfp-main">
+
+        <!-- Basic form -->
+        <app-property-form-basic
+          [existing]="existing"
+          (formChange)="onBasicChange($event)"
+        />
+
+        <!-- Equipment -->
+        <app-property-form-equipment
+          [initial]="equipment"
+          (equipmentChange)="onEquipmentChange($event)"
+        />
+
+        <!-- Images -->
+        <app-property-form-images
+          [existingImages]="existing?.images ?? []"
+          (imagesChange)="onImagesChange($event)"
+        />
+
+      </div>
+
+      <!-- Sidebar : recap + action sticky -->
+      <aside class="pfp-sidebar">
+        <div class="pfp-recap">
+          <h3 class="pfp-recap__title">Récapitulatif</h3>
+
+          <div class="pfp-recap__item" [class.pfp-recap__item--ok]="basicDto.title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline *ngIf="basicDto.title" points="20 6 9 17 4 12"/>
+              <circle *ngIf="!basicDto.title" cx="12" cy="12" r="10"/>
+            </svg>
+            <span>Informations générales</span>
+          </div>
+
+          <div class="pfp-recap__item" [class.pfp-recap__item--ok]="basicDto.type !== undefined">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline *ngIf="basicDto.type !== undefined" points="20 6 9 17 4 12"/>
+              <circle *ngIf="basicDto.type === undefined" cx="12" cy="12" r="10"/>
+            </svg>
+            <span>Type sélectionné</span>
+          </div>
+
+          <div class="pfp-recap__item" [class.pfp-recap__item--ok]="basicDto.status !== undefined">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline *ngIf="basicDto.status !== undefined" points="20 6 9 17 4 12"/>
+              <circle *ngIf="basicDto.status === undefined" cx="12" cy="12" r="10"/>
+            </svg>
+            <span>Statut défini</span>
+          </div>
+
+          <div class="pfp-recap__item" [class.pfp-recap__item--ok]="basicDto.price">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline *ngIf="basicDto.price" points="20 6 9 17 4 12"/>
+              <circle *ngIf="!basicDto.price" cx="12" cy="12" r="10"/>
+            </svg>
+            <span>Prix renseigné</span>
+          </div>
+
+          <div class="pfp-recap__item" [class.pfp-recap__item--ok]="equipment.length > 0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline *ngIf="equipment.length > 0" points="20 6 9 17 4 12"/>
+              <circle *ngIf="equipment.length === 0" cx="12" cy="12" r="10"/>
+            </svg>
+            <span>Équipements ({{ equipment.length }})</span>
+          </div>
+
+          <div class="pfp-recap__item" [class.pfp-recap__item--ok]="imagePayload.toKeep.length + imagePayload.newFiles.length > 0">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <polyline *ngIf="imagePayload.toKeep.length + imagePayload.newFiles.length > 0" points="20 6 9 17 4 12"/>
+              <circle   *ngIf="imagePayload.toKeep.length + imagePayload.newFiles.length === 0" cx="12" cy="12" r="10"/>
+            </svg>
+            <span>Photos ({{ imagePayload.toKeep.length + imagePayload.newFiles.length }})</span>
+          </div>
+
+          <div class="pfp-recap__divider"></div>
+
+          <button
+            type="button"
+            class="btn btn-primary pfp-recap__submit"
+            [disabled]="!canSubmit"
+            (click)="onSubmit()"
+          >
+            <span class="auth-spinner" *ngIf="saving"></span>
+            <svg *ngIf="!saving" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            {{ saving ? 'Enregistrement...' : (mode === 'edit' ? 'Enregistrer' : 'Publier') }}
+          </button>
+
+          <p class="pfp-recap__hint" *ngIf="!canSubmit">
+            Complétez les champs obligatoires (*) pour continuer.
+          </p>
+
+        </div>
+      </aside>
+
+    </div>
+
+  </div>
+</div>

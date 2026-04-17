@@ -1,0 +1,128 @@
+<div class="pm-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="pm-header">
+      <div>
+        <span class="section-eyebrow">Finances</span>
+        <h1 class="section-title">Gestion des paiements</h1>
+      </div>
+      <button class="btn btn-primary" (click)="showAddModal = true">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nouveau paiement
+      </button>
+    </div>
+
+    <!-- Alerts -->
+    <div class="pm-alerts">
+      <app-alert *ngIf="successMsg" type="success" [message]="successMsg" />
+      <app-alert *ngIf="errorMsg"   type="error"   [message]="errorMsg"   />
+    </div>
+
+    <!-- Stats -->
+    <div class="pm-stats" *ngIf="!loading && payments.length > 0">
+      <div class="pm-stat">
+        <div class="pm-stat__icon pm-stat__icon--gold">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <div class="pm-stat__value">{{ totalRevenue | number:'1.0-0' }} <span style="font-size:0.5em;font-weight:500">DT</span></div>
+          <div class="pm-stat__label">Revenu total</div>
+        </div>
+      </div>
+
+      <div class="pm-stat">
+        <div class="pm-stat__icon pm-stat__icon--navy">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div>
+          <div class="pm-stat__value">{{ payments.length }}</div>
+          <div class="pm-stat__label">Paiement{{ payments.length > 1 ? 's' : '' }} enregistré{{ payments.length > 1 ? 's' : '' }}</div>
+        </div>
+      </div>
+
+      <div class="pm-stat">
+        <div class="pm-stat__icon pm-stat__icon--green">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        </div>
+        <div>
+          <div class="pm-stat__value">{{ avgPayment | number:'1.0-0' }} <span style="font-size:0.5em;font-weight:500">DT</span></div>
+          <div class="pm-stat__label">Montant moyen</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="pm-toolbar" *ngIf="!loading">
+      <div class="input-group">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="input" type="text" placeholder="Rechercher par bien, client..."
+          [(ngModel)]="searchQuery" (ngModelChange)="currentPage = 1" />
+        <button *ngIf="searchQuery" class="input-clear" (click)="searchQuery = ''; currentPage = 1">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="pm-sort">
+        <button class="pm-sort-btn" [class.pm-sort-btn--active]="sortDir === 'desc'" (click)="setSort('desc')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 3 18 9"/></svg>
+          Plus récent
+        </button>
+        <button class="pm-sort-btn" [class.pm-sort-btn--active]="sortDir === 'asc'" (click)="setSort('asc')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 15 12 21 18 15"/></svg>
+          Plus ancien
+        </button>
+      </div>
+    </div>
+
+    <!-- Skeleton -->
+    <div class="pm-list" *ngIf="loading">
+      <div class="pm-skeleton" *ngFor="let i of [1,2,3,4,5]"></div>
+    </div>
+
+    <!-- Empty -->
+    <div class="pm-empty" *ngIf="!loading && !errorMsg && filtered.length === 0">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <p>{{ searchQuery ? 'Aucun paiement trouvé pour "' + searchQuery + '".' : 'Aucun paiement enregistré.' }}</p>
+      <button class="btn btn-primary" (click)="showAddModal = true" *ngIf="!searchQuery">
+        Enregistrer le premier paiement
+      </button>
+    </div>
+
+    <!-- List  -->
+    <div class="pm-list" *ngIf="!loading && pagedPayments.length > 0">
+      <app-payment-card
+        *ngFor="let p of pagedPayments; trackBy: trackById"
+        [payment]="p"
+        (delete)="paymentToDelete = p"
+      />
+    </div>
+
+    <!-- Pagination -->
+    <app-pagination
+      *ngIf="!loading && filtered.length > 0"
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      [totalItems]="filtered.length"
+      [itemsPerPage]="pageSize"
+      (pageChange)="goToPage($event)"
+    />
+
+  </div>
+</div>
+
+<!-- ── Modal ajout ── -->
+<app-payment-add-modal
+  *ngIf="showAddModal"
+  (close)="showAddModal = false"
+  (created)="onPaymentCreated($event)"
+/>
+
+<!-- ── Modal Delete ── -->
+<app-confirm-delete-modal
+  *ngIf="paymentToDelete"
+  title="Supprimer ce paiement"
+  [message]="deleteMessage"
+  [loading]="deleteLoading"
+  (close)="paymentToDelete = null"
+  (confirm)="confirmDelete()"
+/>

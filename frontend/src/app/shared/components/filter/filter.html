@@ -1,0 +1,105 @@
+<div class="filter" [class.filter--open]="isOpen">
+
+  <!-- Header -->
+  <div class="filter__header" (click)="toggleOpen()">
+    <div class="filter__header-left">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="20" y2="12"/><line x1="12" y1="18" x2="20" y2="18"/></svg>
+      <span>Filtres</span>
+      <span *ngIf="activeCount > 0" class="badge badge-count">{{ activeCount }}</span>
+    </div>
+    <div class="filter__header-right">
+      <button *ngIf="activeCount > 0" class="filter__reset" (click)="reset(); $event.stopPropagation()">
+        Réinitialiser
+      </button>
+      <svg class="filter__chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="filter__body">
+
+    <!-- Title -->
+    <div class="field">
+      <label class="label">Titre</label>
+      <div class="input-group">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input class="input" type="text" placeholder="Rechercher un bien..."
+          [(ngModel)]="filters.title" (ngModelChange)="onFilterChange()" />
+        <button *ngIf="filters.title" class="input-clear" (click)="filters.title = ''; onFilterChange()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Type -->
+    <div class="field">
+      <label class="label">Type de bien</label>
+      <div class="filter__chips">
+        <button *ngFor="let t of types" class="chip"
+          [class.chip--active]="filters.type === t.value"
+          (click)="setType(t.value)">
+          {{ t.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="field">
+      <label class="label">Statut</label>
+      <div class="filter__chips">
+        <button *ngFor="let s of statuses" class="chip"
+          [class.chip--active]="filters.status === s.value"
+          (click)="setStatus(s.value)">
+          {{ s.label }}
+        </button>
+      </div>
+    </div>
+
+    <div class="filter__row">
+
+      <!-- State -->
+      <div class="field">
+        <label class="label">Ville</label>
+        <select class="select" [(ngModel)]="filters.address" (ngModelChange)="onFilterChange()">
+          <option value="">Toutes</option>
+          <option *ngFor="let v of villes" [value]="v">{{ v }}</option>
+        </select>
+      </div>
+
+      <!-- Rooms -->
+      <div class="field">
+        <label class="label">Chambres min.</label>
+        <div class="filter__chips">
+          <button *ngFor="let n of chambresOptions" class="chip"
+            [class.chip--active]="filters.rooms === n"
+            (click)="setRooms(n)">
+            {{ n }}+
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Price -->
+    <div class="field">
+      <label class="label">Prix (DT)</label>
+      <div class="filter__price-row">
+        <input class="input" type="number" placeholder="Min"
+          [(ngModel)]="filters.prixMin" (ngModelChange)="onFilterChange()" min="0" />
+        <span class="filter__price-sep">—</span>
+        <input class="input" type="number" placeholder="Max"
+          [(ngModel)]="filters.prixMax" (ngModelChange)="onFilterChange()" min="0" />
+      </div>
+    </div>
+
+    <!-- Surface -->
+    <div class="field">
+      <label class="label">Surface min. (m²)</label>
+      <input class="input" type="number" placeholder="Ex: 80"
+        [(ngModel)]="filters.minSurface" (ngModelChange)="onFilterChange()" min="0" />
+    </div>
+
+  </div>
+</div>
