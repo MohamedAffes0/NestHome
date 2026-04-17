@@ -1,0 +1,16 @@
+<div class="kpi-grid">
+  <div
+    class="kpi-card kpi-card--{{ card.color }}"
+    *ngFor="let card of cards; let i = index"
+    [style.animation-delay]="(i * 60) + 'ms'"
+  >
+    <div class="kpi-card__icon" [innerHTML]="card.icon"></div>
+
+    <div class="kpi-card__body">
+      <span class="kpi-card__label">{{ card.label }}</span>
+      <p class="kpi-card__value">
+        {{ card.value }}<span *ngIf="card.suffix" class="kpi-card__suffix"> {{ card.suffix }}</span>
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="rc-wrap">
+
+  <!-- Header -->
+  <div class="rc-header">
+    <div>
+      <h3 class="rc-title">Évolution des revenus</h3>
+      <p class="rc-sub">{{ monthCount }} derniers mois</p>
+    </div>
+    <div class="rc-total">
+      <span class="rc-total__label">Total</span>
+      <span class="rc-total__value">{{ totalRevenue }}</span>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="rc-canvas-wrap">
+    <canvas #revenueCanvas></canvas>
+  </div>
+
+</div>

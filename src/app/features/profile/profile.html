@@ -1,0 +1,32 @@
+<div class="profile-page">
+  <div class="container">
+
+    <app-profile-sidebar
+      [currentUser]="currentUser"
+      [activeTab]="activeTab"
+      [avatarPreview]="avatarPreview"
+      (tabChange)="onTabChange($event)"
+      (fileSelected)="onSidebarFileSelected($event)"
+      (avatarCleared)="onAvatarCleared()"
+    />
+
+    <main class="profile-main">
+      <app-profile-info
+        *ngIf="activeTab === 'info'"
+        [currentUser]="currentUser"
+        [avatarPreview]="avatarPreview"
+        [pendingFile]="pendingFile"
+        (avatarChanged)="onInfoAvatarChanged($event)"
+      />
+      <app-profile-password
+        *ngIf="activeTab === 'password'"
+      />
+      <app-profile-delete
+        *ngIf="activeTab === 'danger'"
+        [currentUser]="currentUser"
+        (accountDeleted)="onAccountDeleted()"
+      />
+    </main>
+
+  </div>
+</div>

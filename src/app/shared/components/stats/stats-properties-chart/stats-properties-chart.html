@@ -1,0 +1,24 @@
+<div class="pc-wrap">
+
+  <div class="pc-header">
+    <h3 class="pc-title">Biens par statut</h3>
+    <p class="pc-sub">{{ total }} biens au total</p>
+  </div>
+
+  <div class="pc-canvas-wrap">
+    <canvas #propCanvas></canvas>
+    <div class="pc-center">
+      <span class="pc-center__value">{{ total }}</span>
+      <span class="pc-center__label">Total</span>
+    </div>
+  </div>
+
+  <div class="pc-legend">
+    <div class="pc-legend__item" *ngFor="let s of stats">
+      <span class="pc-legend__dot" [style.background]="s.color"></span>
+      <span class="pc-legend__label">{{ s.label }}</span>
+      <span class="pc-legend__value">{{ s.value }}</span>
+    </div>
+  </div>
+
+</div>

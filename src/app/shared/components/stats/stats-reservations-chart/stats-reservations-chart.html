@@ -1,0 +1,31 @@
+<div class="rsc-wrap">
+
+  <!-- Header -->
+  <div class="rsc-header">
+    <div>
+      <h3 class="rsc-title">Réservations</h3>
+      <p class="rsc-sub">{{ total }} réservation{{ total > 1 ? 's' : '' }} au total</p>
+    </div>
+  </div>
+
+  <div class="rsc-body">
+
+    <!-- Bar chart -->
+    <div class="rsc-bar-section">
+      <p class="rsc-section-label">Par mois</p>
+      <div class="rsc-bar-canvas">
+        <canvas #barCanvas></canvas>
+      </div>
+    </div>
+
+    <!-- Donut -->
+    <div class="rsc-donut-section">
+      <p class="rsc-section-label">Par statut</p>
+      <div class="rsc-donut-canvas">
+        <canvas #donutCanvas></canvas>
+      </div>
+    </div>
+
+  </div>
+
+</div>

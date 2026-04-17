@@ -1,0 +1,55 @@
+:host { display: block; }
+
+/* ── Danger header ── */
+.profile-danger-header {
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid #fecaca;
+  background: #fff5f5;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.profile-danger-header__icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-lg);
+  background: #fee2e2;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-danger);
+  flex-shrink: 0;
+}
+.profile-danger-header__title { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 700; color: #991b1b; }
+.profile-danger-header__sub   { font-size: var(--text-sm); color: #b91c1c; margin-top: 1px; }
+
+/* ── Body ── */
+.profile-danger-body {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ── Confirm field ── */
+.profile-danger-confirm { display: flex; flex-direction: column; gap: var(--space-2); }
+.profile-danger-confirm .label { color: #991b1b; }
+.profile-danger-confirm .label span { font-weight: 400; color: #b91c1c; }
+.profile-danger-confirm .input-group { border-color: #fca5a5; }
+.profile-danger-confirm .input-group:focus-within { border-color: var(--color-danger); }
+
+/* ── Footer ── */
+.profile-danger-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid #fecaca;
+}
+.profile-danger-footer__hint { font-size: var(--text-xs); color: #b91c1c; }
+
+/* ── Alerts ── */
+.profile-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0;
+}

@@ -1,0 +1,55 @@
+<div class="profile-section">
+  <div class="profile-section__head">
+    <h3 class="profile-section__title">Mes informations</h3>
+    <p class="profile-section__sub">Modifiez votre nom, email et photo de profil</p>
+  </div>
+
+  <div class="profile-alerts">
+    <app-alert type="success" [message]="successMsg" />
+    <app-alert type="info" [message]="infoMsg" />
+    <app-alert type="error"   [message]="errorMsg"   />
+  </div>
+
+  <form class="profile-form" (ngSubmit)="onSubmit()" novalidate>
+
+    <!-- Nom -->
+    <div class="field">
+      <label class="label" for="info-name">Nom complet</label>
+      <div class="input-group">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <input id="info-name" class="input" type="text" placeholder="Mohamed Affes"
+          [(ngModel)]="form.name" name="name" required />
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="field">
+      <label class="label" for="info-email">Adresse e-mail</label>
+      <div class="input-group">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <input id="info-email" class="input" type="email" placeholder="vous@exemple.com"
+          [(ngModel)]="form.email" name="email" required />
+      </div>
+    </div>
+
+    <!-- Photo -->
+    <div class="field">
+      <label class="label">Photo de profil</label>
+      <app-image-upload
+        inputId="profileImageUpload"
+        [preview]="avatarPreview"
+        (fileSelected)="onAvatarFileSelected($event)"
+        (cleared)="onAvatarCleared()"
+      />
+    </div>
+
+    <div class="profile-form__footer">
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <span class="auth-spinner" *ngIf="isLoading"></span>
+        <svg *ngIf="!isLoading" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        {{ isLoading ? 'Enregistrement...' : 'Enregistrer' }}
+      </button>
+    </div>
+
+  </form>
+</div>

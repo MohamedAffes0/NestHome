@@ -1,0 +1,88 @@
+<app-hero></app-hero>
+
+<div class="home">
+
+  <!-- ── Catalogue Section ── -->
+  <section class="home__catalogue section">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="home__header">
+        <div>
+          <span class="section-eyebrow">Catalogue</span>
+          <h2 class="section-title">Annonces récentes</h2>
+        </div>
+        <p class="home__count" *ngIf="!loading && !errorMsg">
+          <strong>{{ totalItems }}</strong>
+          bien{{ totalItems > 1 ? 's' : '' }}
+          trouvé{{ totalItems > 1 ? 's' : '' }}
+        </p>
+      </div>
+
+      <!-- Layout -->
+      <div class="home__layout">
+
+        <!-- Sidebar filtre -->
+        <aside class="home__sidebar">
+          <!-- Sync hero with filters -->
+          <app-filter
+            [initialFilters]="activeFilters"
+            (filtersChange)="onFiltersChange($event)"
+          />
+        </aside>
+
+        <!-- Grid of cards -->
+        <div class="home__content">
+
+          <!-- Skeleton -->
+          <div class="home__grid" *ngIf="loading">
+            <div class="home__skeleton" *ngFor="let i of [1,2,3,4,5,6]"></div>
+          </div>
+
+          <!-- Erreur -->
+          <div class="home__error" *ngIf="!loading && errorMsg">
+            <div class="home__error-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor"/></svg>
+            </div>
+            <h3 class="home__error-title">Erreur de chargement</h3>
+            <p class="home__error-sub">{{ errorMsg }}</p>
+            <button class="btn btn-primary" (click)="loadProperties()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+              Réessayer
+            </button>
+          </div>
+
+          <!-- ── Result ── -->
+          <ng-container *ngIf="!loading && !errorMsg">
+
+            <div class="home__grid" *ngIf="properties.length > 0">
+              <app-property-card
+                *ngFor="let property of properties"
+                [property]="property"
+                (click)="onPropertyClick(property)"
+              />
+            </div>
+
+            <div class="home__empty" *ngIf="properties.length === 0">
+              <div class="home__empty-icon">🏠</div>
+              <h3 class="home__empty-title">Aucun bien trouvé</h3>
+              <p class="home__empty-sub">Essayez de modifier vos critères de recherche.</p>
+            </div>
+
+            <!-- Pagination -->
+            <app-pagination
+              *ngIf="totalPages > 1"
+              [currentPage]="currentPage"
+              [totalPages]="totalPages"
+              [totalItems]="totalItems"
+              [itemsPerPage]="limit"
+              (pageChange)="onPageChange($event)"
+            />
+
+          </ng-container>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>

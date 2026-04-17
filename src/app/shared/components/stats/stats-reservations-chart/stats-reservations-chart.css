@@ -1,0 +1,81 @@
+:host { display: block; }
+
+.rsc-wrap {
+  background: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.rsc-header {
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--gray-50);
+}
+
+.rsc-title {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--navy-700);
+}
+
+.rsc-sub {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.rsc-body {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 0;
+}
+
+.rsc-bar-section {
+  padding: var(--space-5);
+}
+
+.rsc-donut-section {
+  padding: var(--space-5);
+  border-left: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rsc-section-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+  width: 100%;
+}
+
+.rsc-bar-canvas {
+  position: relative;
+  height: 220px;
+}
+.rsc-bar-canvas canvas {
+  display: block;
+}
+
+.rsc-donut-canvas {
+  width: 100%;
+}
+.rsc-donut-canvas canvas {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .rsc-body {
+    grid-template-columns: 1fr;
+  }
+  .rsc-donut-section {
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+  }
+}

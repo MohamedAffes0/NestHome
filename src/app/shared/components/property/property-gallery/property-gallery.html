@@ -1,0 +1,31 @@
+<div class="pg" *ngIf="images.length">
+
+  <!-- Principal image -->
+  <div class="pg__main" (click)="open()">
+    <img [src]="images[current]" [alt]="title" />
+    <span class="pg__count">{{ current + 1 }} / {{ images.length }}</span>
+    <button class="pg__nav pg__nav--prev" (click)="prev($event)" *ngIf="images.length > 1">‹</button>
+    <button class="pg__nav pg__nav--next" (click)="next($event)" *ngIf="images.length > 1">›</button>
+  </div>
+
+  <!-- Thumbnails -->
+  <div class="pg__thumbs" *ngIf="images.length > 1">
+    <img
+      *ngFor="let img of images; let i = index"
+      [src]="img" [alt]="title"
+      class="pg__thumb"
+      [class.pg__thumb--active]="i === current"
+      (click)="current = i"
+    />
+  </div>
+
+</div>
+
+<!-- Lightbox -->
+<div class="pg__lightbox" *ngIf="lightbox" (click)="close()">
+  <button class="pg__lb-close" (click)="close()">✕</button>
+  <button class="pg__lb-nav pg__lb-nav--prev" (click)="prev($event)" *ngIf="images.length > 1">‹</button>
+  <img [src]="images[current]" [alt]="title" (click)="$event.stopPropagation()" />
+  <button class="pg__lb-nav pg__lb-nav--next" (click)="next($event)" *ngIf="images.length > 1">›</button>
+  <span class="pg__lb-count">{{ current + 1 }} / {{ images.length }}</span>
+</div>

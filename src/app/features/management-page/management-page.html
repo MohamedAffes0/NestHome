@@ -1,0 +1,71 @@
+<div class="gestion-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="gestion-header">
+      <div>
+        <span class="section-eyebrow">Administration</span>
+        <h1 class="section-title">Gestion des biens</h1>
+      </div>
+      <button class="btn btn-primary" (click)="onAdd()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Ajouter un bien
+      </button>
+    </div>
+
+    <!-- Alertes -->
+    <app-alert *ngIf="errorMsg"    type="error"   [message]="errorMsg" />
+    <app-alert *ngIf="deleteError" type="error"   [message]="deleteError" />
+
+    <!-- Skeleton -->
+    <div class="gestion-grid" *ngIf="loading">
+      <div class="gestion-skeleton" *ngFor="let i of [1,2,3,4,5,6]"></div>
+    </div>
+
+    <!-- Empty -->
+    <div class="gestion-empty" *ngIf="!loading && !errorMsg && properties.length === 0">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <p>Aucun bien pour l'instant.</p>
+      <button class="btn btn-primary" (click)="onAdd()">Créer la première annonce</button>
+    </div>
+
+    <!-- Grille -->
+    <div class="gestion-grid" *ngIf="!loading && properties.length > 0">
+      <app-gestion-card
+        *ngFor="let p of properties"
+        [property]="p"
+        (edit)="onEdit(p.id)"
+        (delete)="askDelete(p.id)"
+      />
+    </div>
+
+  </div>
+</div>
+
+<!-- ── Delete Confirmation ── -->
+<div class="gestion-overlay" *ngIf="deletingId" (click)="cancelDelete()">
+  <div class="gestion-modal" (click)="$event.stopPropagation()">
+
+    <div class="gestion-modal__icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+    </div>
+
+    <h2 class="gestion-modal__title">Supprimer ce bien ?</h2>
+    <p class="gestion-modal__sub">
+      « <strong>{{ deletingProperty?.title }}</strong> » sera définitivement supprimé.
+      Cette action est irréversible.
+    </p>
+
+    <div class="gestion-modal__actions">
+      <button class="btn btn-ghost" (click)="cancelDelete()" [disabled]="deleteLoading">
+        Annuler
+      </button>
+      <button class="btn-delete" (click)="confirmDelete()" [disabled]="deleteLoading">
+        <span class="auth-spinner" *ngIf="deleteLoading"></span>
+        <svg *ngIf="!deleteLoading" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+        {{ deleteLoading ? 'Suppression...' : 'Confirmer' }}
+      </button>
+    </div>
+
+  </div>
+</div>

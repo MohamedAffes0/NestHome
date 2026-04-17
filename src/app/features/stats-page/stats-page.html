@@ -1,0 +1,62 @@
+<div class="sp">
+
+  <!-- ── Header ── -->
+  <div class="sp__header">
+    <div class="sp__header-left">
+      <span class="section-eyebrow">Administration</span>
+      <h1 class="section-title">Tableau de bord</h1>
+      <p class="sp__date">{{ today }}</p>
+    </div>
+    <div class="sp__header-badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Données en temps réel
+    </div>
+  </div>
+
+  <!-- ── Skeleton ── -->
+  <div class="sp__skeleton-grid" *ngIf="loading">
+    <div class="sp__skeleton sp__skeleton--kpi" *ngFor="let i of [1,2,3,4,5,6]"></div>
+  </div>
+  <div class="sp__skeleton-rows" *ngIf="loading">
+    <div class="sp__skeleton sp__skeleton--chart"></div>
+    <div class="sp__skeleton sp__skeleton--chart"></div>
+  </div>
+
+  <!-- ── Error ── -->
+  <div class="sp__error" *ngIf="!loading && error">
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor"/></svg>
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- ── Content ── -->
+  <ng-container *ngIf="!loading && !error">
+
+    <!-- KPI Cards -->
+    <app-stats-kpi-cards [overview]="overview" />
+
+    <!-- Row 1 : Revenue + Properties -->
+    <div class="sp__row-2">
+      <div class="sp__col-main">
+        <app-stats-revenue-chart [data]="revenue" />
+      </div>
+      <div class="sp__col-side">
+        <app-stats-properties-chart [data]="properties" />
+      </div>
+    </div>
+
+    <!-- Row 2 : Reservations -->
+    <app-stats-reservations-chart [data]="reservations" />
+
+    <!-- Row 3 : Contracts + Top Rated -->
+    <div class="sp__row-2">
+      <div class="sp__col-main">
+        <app-stats-contracts-chart [data]="contracts" />
+      </div>
+      <div class="sp__col-side">
+        <app-stats-top-rated [items]="properties?.topRated ?? []" />
+      </div>
+    </div>
+
+  </ng-container>
+
+</div>

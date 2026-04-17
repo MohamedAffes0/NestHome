@@ -1,0 +1,51 @@
+<div class="fav-page">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="fav-header">
+      <div>
+        <span class="section-eyebrow">Mes favoris</span>
+        <h1 class="section-title">Biens sauvegardés</h1>
+      </div>
+      <p class="fav-count" *ngIf="!loading && !errorMsg">
+        <strong>{{ properties.length }}</strong>
+        bien{{ properties.length > 1 ? 's' : '' }}
+        sauvegardé{{ properties.length > 1 ? 's' : '' }}
+      </p>
+    </div>
+
+    <!-- Skeleton -->
+    <div class="fav-grid" *ngIf="loading">
+      <div class="fav-skeleton" *ngFor="let i of [1,2,3,4,5,6]"></div>
+    </div>
+
+    <!-- Error -->
+    <div class="fav-error" *ngIf="!loading && errorMsg">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r=".5" fill="currentColor"/></svg>
+      <h3>Erreur de chargement</h3>
+      <p>{{ errorMsg }}</p>
+    </div>
+
+    <!-- Empty -->
+    <div class="fav-empty" *ngIf="!loading && !errorMsg && properties.length === 0">
+      <div class="fav-empty__icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <h2 class="fav-empty__title">Aucun favori pour l'instant</h2>
+      <p class="fav-empty__sub">Parcourez le catalogue et cliquez sur ♡ pour sauvegarder des biens.</p>
+      <a routerLink="/" class="btn btn-primary" style="margin-top: var(--space-4);">
+        Voir le catalogue
+      </a>
+    </div>
+
+    <!-- Grille -->
+    <div class="fav-grid" *ngIf="!loading && !errorMsg && properties.length > 0">
+      <app-property-card
+        *ngFor="let property of properties"
+        [property]="property"
+        (click)="onPropertyClick(property)"
+      />
+    </div>
+
+  </div>
+</div>
