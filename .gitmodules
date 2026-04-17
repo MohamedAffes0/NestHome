@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/MohamedAffes0/NestHome-frontend.git
+[submodule "backend"]
+	path = backend
+	url = https://github.com/MohamedAffes0/NestHome-backend.git
